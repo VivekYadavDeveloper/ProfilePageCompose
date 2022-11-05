@@ -6,12 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.random.Random
 
 
 class MainActivity : ComponentActivity() {
@@ -34,6 +37,7 @@ class MainActivity : ComponentActivity() {
             Font(R.font.oswald_medium)
         )
         setContent {
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -45,6 +49,7 @@ class MainActivity : ComponentActivity() {
                     .border(15.dp, Color.Red)
                     .padding(50.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 val painter = painterResource(id = R.drawable.smart)
                 val description = "Smart Boy With Specs"
                 val title = "Smart Boy Wear Specs"
@@ -69,12 +74,56 @@ class MainActivity : ComponentActivity() {
                         textAlign = TextAlign.Center
                     )
                 }
-                Text(text = "Vivek Yadav Developer")
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Column(
+                    modifier = Modifier
+//                        .height(70.dp)
+                        .fillMaxSize()
+//                        .background(Color.Red, shape = RoundedCornerShape(20.dp))
+//                        .padding(8.dp), horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val color = remember {
+                        mutableStateOf(Color.Yellow)
+                    }
+                    //TODO:
+                    ColorBox(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(50.dp)
+                            .background(
+                                color.value,
+                                shape = RoundedCornerShape(10.dp)
+
+                            )
+
+                    ) {
+                        color.value = it
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color.value, shape = RoundedCornerShape(20.dp))
+                            .weight(1f)
+                            .height(50.dp)
+                            .width(50.dp)
+                    )
+                }
+
             }
 
+
         }
+
     }
 }
+
+
+///********************************************* Compose Section ****************************************//
+///********************************************* Compose Section ****************************************//
+
+
 //*** Created Function with parameters
 //*** painter title contentDescription and modifier
 //*** Then Call the Card Widget
@@ -129,6 +178,20 @@ fun ImageCard(
         }
     }
 }
+
+//*** Change the Color Box
+
+@Composable
+fun ColorBox(modifier: Modifier = Modifier, updateColor: (Color) -> Unit) = Box(modifier = modifier
+//    .background(Color.Yellow, shape = RoundedCornerShape(50.dp))
+    .clickable {
+        updateColor(
+            Color(
+                Random.nextInt(),
+                Random.nextInt(), Random.nextInt(),
+            )
+        )
+    })
 //@Preview(showBackground = true)
 //@Composable
 //fun DefaultPreview(){
